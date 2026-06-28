@@ -223,15 +223,22 @@ p { font-size: 15px; line-height: 1.8; color: var(--muted); }
 
 /* ── Badge ── */
 .badge {
-  display: inline-block;
-  padding: 12px 22px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 18px;
   border: 1px solid rgba(255,196,0,0.45);
   border-radius: 30px;
   color: #b6ff4d;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 1px;
   margin-bottom: 30px;
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: normal;
+  text-align: center;
 }
 
 /* ── Headline ── */
@@ -478,7 +485,7 @@ p { font-size: 15px; line-height: 1.8; color: var(--muted); }
 .badge-white { background: rgba(255,255,255,0.15); color: #fff; }
 
 /* ─── PAGE HERO (inner pages) ─── */
-.page-hero { background: var(--green); padding: 64px 40px; }
+.page-hero { background: var(--green); padding: 164px 40px 64px; }
 .page-hero-inner { max-width: 1140px; margin: 0 auto; }
 .page-hero h1 { color: #fff; margin-bottom: 14px; }
 .page-hero p { color: rgba(255,255,255,0.75); max-width: 560px; font-size: 16px; }
@@ -515,13 +522,29 @@ p { font-size: 15px; line-height: 1.8; color: var(--muted); }
 .cta-strip h3 { font-family: 'Fraunces', serif; font-size: 26px; color: var(--green); }
 .cta-strip p { color: var(--green); opacity: 0.75; font-size: 14px; margin-top: 4px; }
 
+/* ─── LANGUAGE SWITCHER ─── */
+.lang-switcher { display: flex; align-items: center; gap: 4px; }
+.ls-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+  color: #062b16; padding: 4px 6px; border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.ls-btn:hover { background: rgba(6,43,22,0.08); }
+.ls-btn.ls-active { color: #2d7a35; background: rgba(45,122,53,0.10); }
+.ls-sep { font-size: 11px; color: rgba(6,43,22,0.3); }
+/* Hide Google's default bar */
+.goog-te-banner-frame, .skiptranslate { display: none !important; }
+body { top: 0 !important; }
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 900px) {
   .navbar { padding: 0 20px; }
   .nav-links, .nav-cta { display: none; }
   .hamburger { display: flex; }
 
-  .hero { padding: 100px 5% 60px; }
+  .hero { padding: 140px 5% 60px; }
   .hero-content { grid-template-columns: 1fr; }
   .hero-image {
     display: flex;
@@ -542,7 +565,7 @@ p { font-size: 15px; line-height: 1.8; color: var(--muted); }
   .quote-box { position: relative; right: auto; bottom: auto; width: 100%; margin-top: 32px; }
   .quote-box form { flex-direction: column; }
   .section, .section-sm { padding: 56px 20px; }
-  .page-hero { padding: 48px 20px; }
+  .page-hero { padding: 140px 20px 48px; }
   .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
   .grid-split { grid-template-columns: 1fr; gap: 32px; }
   .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; padding: 48px 20px 32px; }

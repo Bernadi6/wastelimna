@@ -14,7 +14,13 @@ const NAV_HTML = `
     <li><a href="charity.html">Charity</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
+  <div id="gt-container" style="display:none"></div>
   <a href="contact.html" class="nav-cta">Schedule Service</a>
+  <div class="lang-switcher">
+    <button class="ls-btn ls-active" data-lang="en" onclick="switchLang('en')">EN</button>
+    <span class="ls-sep">|</span>
+    <button class="ls-btn" data-lang="fr" onclick="switchLang('fr')">FR</button>
+  </div>
   <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
     <span class="ham-bar"></span>
     <span class="ham-bar"></span>
@@ -36,8 +42,7 @@ const NAV_HTML = `
     </ul>
     <a href="contact.html" class="mobile-cta">Schedule Service →</a>
     <div class="mobile-drawer-contact">
-      <a href="tel:+17047755053">📞 +1 (704) 775-5053</a>
-      <a href="mailto:info@wastelimna.com">✉️ info@wastelimna.com</a>
+      <a href="mailto:info@wastelimna-usa.com">✉️ info@wastelimna-usa.com</a>
     </div>
   </div>
 </div>
@@ -55,7 +60,13 @@ const NAV_HOME_HTML = `
     <li><a href="pages/charity.html">Charity</a></li>
     <li><a href="pages/contact.html">Contact</a></li>
   </ul>
+  <div id="gt-container" style="display:none"></div>
   <a href="pages/contact.html" class="nav-cta">Schedule Service</a>
+  <div class="lang-switcher">
+    <button class="ls-btn ls-active" data-lang="en" onclick="switchLang('en')">EN</button>
+    <span class="ls-sep">|</span>
+    <button class="ls-btn" data-lang="fr" onclick="switchLang('fr')">FR</button>
+  </div>
   <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
     <span class="ham-bar"></span>
     <span class="ham-bar"></span>
@@ -77,8 +88,7 @@ const NAV_HOME_HTML = `
     </ul>
     <a href="pages/contact.html" class="mobile-cta">Schedule Service →</a>
     <div class="mobile-drawer-contact">
-      <a href="tel:+17047755053">📞 +1 (704) 775-5053</a>
-      <a href="mailto:info@wastelimna.com">✉️ info@wastelimna.com</a>
+      <a href="mailto:info@wastelimna-usa.com">✉️ info@wastelimna-usa.com</a>
     </div>
   </div>
 </div>
@@ -134,9 +144,8 @@ const FOOTER_HTML = (prefix='..') => `
     <div class="footer-col">
       <h4>Contact</h4>
       <ul>
-        <li><a href="mailto:info@wastelimna.com">info@wastelimna.com</a></li>
-        <li><a href="tel:+17047755053">+1 (704) 775-5053</a></li>
-        <li><a href="#">138 Abercorne Way Unit. D, Mooresville, NC 28115</a></li>
+        <li><a href="mailto:info@wastelimna-usa.com">info@wastelimna-usa.com</a></li>
+        <li><a href="#">138 Abercome Way Mooresville, NC 28115</a></li>
         <li><a href="${prefix}/pages/contact.html">Get a Quote</a></li>
       </ul>
     </div>
@@ -154,4 +163,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const footerEl = document.getElementById('footer-placeholder');
   if (navEl) navEl.outerHTML = isHome ? NAV_HOME_HTML : NAV_HTML;
   if (footerEl) footerEl.outerHTML = FOOTER_HTML(isHome ? '.' : '..');
+
+  // ── Google Translate FR/EN toggle ──
+  const gtScript = document.createElement('script');
+  gtScript.src = 'https://translate.google.com/translate_a/element.js?cb=initGoogleTranslate';
+  gtScript.async = true;
+  document.head.appendChild(gtScript);
+
+  window.initGoogleTranslate = function () {
+    new google.translate.TranslateElement(
+      { pageLanguage: 'en', includedLanguages: 'en,fr', autoDisplay: false },
+      'gt-container'
+    );
+    const saved = localStorage.getItem('we-lang');
+    if (saved && saved !== 'en') setTimeout(() => switchLang(saved), 600);
+  };
+
+  window.switchLang = function(lang) {
+    const sel = document.querySelector('.goog-te-combo');
+    if (sel) { sel.value = lang; sel.dispatchEvent(new Event('change')); }
+    document.querySelectorAll('.ls-btn').forEach(b => b.classList.toggle('ls-active', b.dataset.lang === lang));
+    localStorage.setItem('we-lang', lang);
+  };
 });
