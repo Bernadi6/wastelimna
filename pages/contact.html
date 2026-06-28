@@ -33,7 +33,21 @@
       <div>
         <h2 style="color:var(--green);margin-bottom:8px;font-size:26px">Send Us a Message</h2>
         <p style="margin-bottom:32px">Fill in the form below and we'll be in touch shortly.</p>
-        <form id="contactForm">
+        <!-- success banner -->
+        <div id="formSuccess" style="display:none;margin-bottom:20px;padding:18px;background:#eaf3de;border-radius:12px;color:#1a4d1e;font-weight:600;text-align:center;font-size:15px">
+          ✅ Message sent! We'll be in touch shortly.
+        </div>
+
+        <form id="contactForm"
+              action="https://formsubmit.co/info@wastelimna-usa.com"
+              method="POST">
+
+          <!-- Formsubmit settings -->
+          <input type="hidden" name="_subject"  value="New WastElimna Enquiry"/>
+          <input type="hidden" name="_captcha"  value="false"/>
+          <input type="hidden" name="_template" value="table"/>
+          <input type="hidden" name="_next"     value="https://wastelimna-usa.com/pages/contact.html?sent=1"/>
+
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="name-grid">
             <div class="form-group">
               <label for="fname">First Name *</label>
@@ -75,54 +89,20 @@
             <textarea id="message" name="message" rows="5" placeholder="Tell us more about what you need..." required></textarea>
           </div>
 
-          <button type="submit" id="submitBtn" class="btn btn-dark" style="width:100%;justify-content:center;font-size:15px;padding:15px">
+          <button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;font-size:15px;padding:15px">
             Send Message →
           </button>
-
-          <div id="formSuccess" style="display:none;margin-top:16px;padding:18px;background:#eaf3de;border-radius:12px;color:#1a4d1e;font-weight:600;text-align:center;font-size:15px">
-            ✅ Message sent! We'll be in touch shortly.
-          </div>
-          <div id="formError" style="display:none;margin-top:16px;padding:18px;background:#fdeaea;border-radius:12px;color:#b00020;font-weight:600;text-align:center;font-size:15px">
-            ❌ Something went wrong. Please email us directly at <a href="mailto:info@wastelimna-usa.com" style="color:#b00020">info@wastelimna-usa.com</a>
-          </div>
         </form>
 
         <script>
-          // Make name grid single column on small screens
-          const nameGrid = document.querySelector('.name-grid');
-          if (window.innerWidth < 480 && nameGrid) nameGrid.style.gridTemplateColumns = '1fr';
-
-          document.getElementById('contactForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.textContent = 'Sending…';
-            btn.disabled = true;
-
-            const data = new FormData(this);
-            data.append('_subject', 'New WastElimna Enquiry from ' + (data.get('first_name') || '') + ' ' + (data.get('last_name') || ''));
-            data.append('_captcha', 'false');
-            data.append('_template', 'table');
-
-            try {
-              const res = await fetch('https://formsubmit.co/ajax/info@wastelimna-usa.com', {
-                method: 'POST',
-                headers: { 'Accept': 'application/json' },
-                body: data
-              });
-              const json = await res.json();
-              if (json.success === 'true' || json.success === true) {
-                document.getElementById('formSuccess').style.display = 'block';
-                document.getElementById('formError').style.display = 'none';
-                this.reset();
-              } else { throw new Error('Failed'); }
-            } catch {
-              document.getElementById('formError').style.display = 'block';
-              document.getElementById('formSuccess').style.display = 'none';
-            }
-
-            btn.textContent = 'Send Message →';
-            btn.disabled = false;
-          });
+          if (window.innerWidth < 480) {
+            const g = document.querySelector('.name-grid');
+            if (g) g.style.gridTemplateColumns = '1fr';
+          }
+          if (window.location.search.includes('sent=1')) {
+            document.getElementById('formSuccess').style.display = 'block';
+            document.getElementById('contactForm').style.display = 'none';
+          }
         </script>
       </div>
 
