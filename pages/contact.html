@@ -38,15 +38,10 @@
           ✅ Message sent! We'll be in touch shortly.
         </div>
 
-        <form id="contactForm"
-              action="https://formsubmit.co/info@wastelimna-usa.com"
-              method="POST">
-
-          <!-- Formsubmit settings -->
-          <input type="hidden" name="_subject"  value="New WastElimna Enquiry"/>
-          <input type="hidden" name="_captcha"  value="false"/>
-          <input type="hidden" name="_template" value="table"/>
-          <input type="hidden" name="_next"     value="https://wastelimna-usa.com/pages/contact.html?sent=1"/>
+        <form id="contactForm">
+          <input type="hidden" name="access_key" value="200f21c8-1597-419d-bcca-a6384e339c02"/>
+          <input type="hidden" name="subject"    value="New WastElimna Enquiry"/>
+          <input type="hidden" name="from_name"  value="WastElimna Website"/>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="name-grid">
             <div class="form-group">
@@ -99,10 +94,31 @@
             const g = document.querySelector('.name-grid');
             if (g) g.style.gridTemplateColumns = '1fr';
           }
-          if (window.location.search.includes('sent=1')) {
-            document.getElementById('formSuccess').style.display = 'block';
-            document.getElementById('contactForm').style.display = 'none';
-          }
+
+          document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button[type="submit"]');
+            btn.textContent = 'Sending…';
+            btn.disabled = true;
+
+            const res = await fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify(Object.fromEntries(new FormData(this)))
+            });
+            const data = await res.json();
+
+            if (data.success) {
+              document.getElementById('formSuccess').style.display = 'block';
+              document.getElementById('formSuccess').scrollIntoView({ behavior: 'smooth', block: 'center' });
+              this.reset();
+            } else {
+              alert('Something went wrong. Please email info@wastelimna-usa.com directly.');
+            }
+
+            btn.textContent = 'Send Message →';
+            btn.disabled = false;
+          });
         </script>
       </div>
 

@@ -580,9 +580,14 @@ body { top: 0 !important; }
   .stats div:last-child { border-bottom: none; padding: 0; margin: 0; }
 
   /* ── Find bar ── */
-  .find-bar-wrap { margin-top: 0; }
-  .search-bar { flex-direction: column; border-radius: 16px; gap: 0; }
-  .search-bar input, .search-bar select { border-radius: 12px; margin-bottom: 8px; }
+  .find-bar-wrap { margin-top: 0; padding: 0 12px; }
+  .find-bar { padding: 20px 16px; border-radius: 14px; }
+  .find-bar-form { flex-direction: column; align-items: stretch; gap: 10px; }
+  .find-bar-input { width: 100%; font-size: 14px; }
+  .find-bar-select-wrap { width: 100%; }
+  .find-bar-select { font-size: 14px; }
+  .find-bar-btn { width: 100%; justify-content: center; padding: 14px; font-size: 15px; }
+  .find-bar-label { font-size: 11px; }
   .search-bar button { border-radius: 12px; width: 100%; justify-content: center; }
   .search-wrap { padding: 0 16px; }
 
